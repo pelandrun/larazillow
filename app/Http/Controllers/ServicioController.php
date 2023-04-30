@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Servicio;
+// use Illuminate\Database\Eloquent\Builder;
+// use \Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class ServicioController extends Controller
 {
@@ -12,8 +15,16 @@ class ServicioController extends Controller
      */
     public function index(Request $request)
     {
-        // dd(Servicio::paginate(10)
-        //             ->withQueryString());
+
+        // $perPage = 10;
+        // $ttl = now()->addDays(1);
+        // $page = request()->get('page') ?: 1;
+        // $fromDate = now()->subDay(7)->toDateString();
+        // $cacheKey = 'servicios_thprobes_count_' . $fromDate;
+        // $value = Cache::remember('users1', 15, function () {
+        //     return Servicio::get();
+        // });
+        // dd($value);
         $filters = $request->only([
             'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
         ]);
@@ -22,7 +33,11 @@ class ServicioController extends Controller
             'Servicio/Index',
             [
                 'filters' => $filters,
-                'servicios' => Servicio::paginate(10)
+                'servicios' => Servicio::where('working_hours','>',1)
+                    ->orwhere('daily','>',1)
+                    ->orwhere('monthly','>',1)
+                    ->orwhere('weekly','>',1)
+                    ->paginate(10)
                     ->withQueryString()
             ]
         );
