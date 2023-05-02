@@ -8,6 +8,9 @@
       v-html="link.label"
     />
   </div>
+  <div v-for="link in links">
+    <div>{{ link }}</div>
+  </div>
 </template>
 <script setup>
 import { Link } from '@inertiajs/vue3'

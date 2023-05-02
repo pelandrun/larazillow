@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Listing;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListingController extends Controller
 {
@@ -17,7 +18,13 @@ class ListingController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->session()->get('success'));
+        // $q = Listing::with(['owner'  => function (Builder $query) {
+        //     dd($query);
+        //     $query->where('id', '>', '0');
+        // }
+
+        // ])->get();
+        // dd($q);
         $filters = $request->only([
             'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
         ]);
@@ -110,17 +117,5 @@ class ListingController extends Controller
 
         return redirect()->route('listing.index')
             ->with('success', 'Listing was changed!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Listing $listing)
-    {
-        //
-        $listing->delete();
-
-        return redirect()->back()
-            ->with('success', 'Listing was deleted!');
     }
 }

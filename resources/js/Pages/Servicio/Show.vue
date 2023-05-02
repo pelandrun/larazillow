@@ -63,7 +63,7 @@
 </template>
   
 <script setup>
-import ListingAddress from '@/Components/ServicioAddress.vue'
+import ListingAddress from '@/Components/ListingAddress.vue'
 import Box from '@/Components/UI/Box.vue'
 import ListingSpace from '@/Components/ListingSpace.vue'
 import Price from '@/Components/Price.vue'
