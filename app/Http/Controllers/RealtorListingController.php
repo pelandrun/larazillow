@@ -15,9 +15,9 @@ class RealtorListingController extends Controller
     }
     public function index(Request $request){
         // dd( Auth::user()->listings()->withTrashed()->get());
-        dd( Auth::user()->with(['listings'  => function ($query) {
-            return $query->where('price','>','700000');
-        }])->get());
+        // dd( Auth::user()->with(['listings'  => function ($query) {
+        //     return $query->where('price','>','700000');
+        // }])->get());
         $filters = [
             'deleted' => $request->boolean('deleted'),
             ...$request->only(['by','order'])

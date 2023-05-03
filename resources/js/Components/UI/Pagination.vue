@@ -8,9 +8,9 @@
       v-html="link.label"
     />
   </div>
-  <div v-for="link in links">
-    <div>{{ link }}</div>
-  </div>
+  <!-- <div class="flex border" v-for="link in links">
+    <div class="text-gray-900 font-bold">{{ link }}</div>
+  </div> -->
 </template>
 <script setup>
 import { Link } from '@inertiajs/vue3'
