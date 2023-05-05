@@ -17,7 +17,7 @@ class ServicioController extends Controller
      */
     public function index(Request $request)
     {
-
+        // dd(Servicio::limit(10)->get());
         // dd(Servicio::where('working_hours', '>', 1)
         //     ->orwhere('daily', '>', 1)
         //     ->orwhere('monthly', '>', 1)
@@ -53,13 +53,13 @@ class ServicioController extends Controller
                     // ->orwhere('daily', '>', 1)
                     // ->orwhere('monthly', '>', 1)
                     // ->orwhere('weekly', '>', 1)
-                    whereHas('thprobes', function($query) {
+                    whereHas('thprobes', function ($query) {
                         $query->where('created', '>', now()->subDays(7));
                     })
                     ->with(['thprobes' => function (Builder $query) {
                         return $query
                             ->where('created', '>=', now()->subDays(7))
-                            ->orderBy('created','desc');
+                            ->orderBy('created', 'desc');
                     }])
                     ->paginate(10)
                     ->withQueryString()
@@ -99,7 +99,8 @@ class ServicioController extends Controller
                 'servicio' => $servicio->load([
                     'iucliente',
                     'thprobes' => function (Builder $query) {
-                        return $query->where('created', '>', now()->subDays(30));
+                        return $query->where('created', '>', now()->subDays(30))
+                            ->orderBy('created', 'desc');
                     }
                 ])
             ]
