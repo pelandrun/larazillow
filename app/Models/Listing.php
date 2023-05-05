@@ -16,6 +16,7 @@ class Listing extends Model
         'beds', 'baths', 'area', 'city', 'code', 'street', 'street_nr', 'price'
     ];
 
+    protected $sorteable = ['price', 'created_at'];
     public function owner(): BelongsTo
     {
         return $this->belongsTo(
@@ -53,7 +54,10 @@ class Listing extends Model
             fn ($query, $value) => $query->withTrashed()
         )->when(
             $filters['by'] ?? false,
-            fn ($query, $value) => $query->orderBy($value, $filters['order'] ?? 'desc')
+            fn ($query, $value) => 
+            !in_array($value, $this->sorteable) ? 
+            $query : 
+            $query->orderBy($value, $filters['order'] ?? 'desc')
         );
     }
 }
