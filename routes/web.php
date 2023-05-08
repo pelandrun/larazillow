@@ -20,9 +20,12 @@ use App\Http\Controllers\RealtorListingController;
 */
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/hello', [IndexController::class, 'show']);
+
 Route::resource('listing', ListingController::class)
-  ->only(['index','edit','store','update','create','show']);
+  ->only(['index','show']);
+
 Route::resource('servicio', ServicioController::class);
+
 Route::get('login', [AuthController::class, 'create'])
   ->name('login');
 Route::post('login', [AuthController::class, 'store'])
@@ -33,12 +36,13 @@ Route::delete('logout', [AuthController::class, 'destroy'])
     ->only(['create','store']);
 
     Route::prefix('realtor')
-    ->name('realtor.')
-    ->middleware('auth')
-    ->group(function () {
-      Route::resource('listing', RealtorListingController::class)
-        ->only(['index','destroy']);
-    });
+      ->name('realtor.')
+      ->middleware('auth')
+      ->group(function () {
+        Route::resource('listing', RealtorListingController::class)
+          ->only(['index','destroy', 'edit', 'update', 'create', 'store'])
+          ->withTrashed();
+      });
 //   ->only(['index', 'show','create','store','edit']);
 // Route::get('/', function () {
 //     return view('app');
